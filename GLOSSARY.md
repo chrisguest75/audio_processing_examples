@@ -1,0 +1,11 @@
+# GLOSSARY
+
+Narrowband: Narrowband audio typically covers a frequency range of 300 Hz to 3,400 Hz, which is considered the most important range for understanding human speech. However, this limited frequency range does not capture the full spectrum of human speech and may result in a less natural and less intelligible sound. Narrowband audio has been the standard for traditional telephone systems and older speech codecs due to its lower bandwidth requirements, which makes it more suitable for systems with limited resources or network capacity.
+
+Wideband: Wideband audio, also known as HD Voice, covers a wider frequency range, typically from 50 Hz to 7,000 Hz or even up to 16,000 Hz. This extended frequency range captures more of the natural nuances and harmonics of human speech, resulting in clearer, more natural-sounding audio with improved intelligibility. Wideband audio is used in modern VoIP (Voice over Internet Protocol) systems, digital telephony, and newer speech codecs that can handle the increased bandwidth requirements.
+
+The transition from narrowband to wideband audio in telecommunications systems has led to significant improvements in speech quality and user experience. However, it also requires greater bandwidth and more advanced codecs to efficiently encode and transmit the additional frequency content. Consequently, wideband audio may not be supported on all devices or networks, and compatibility issues may arise when connecting wideband and narrowband systems.
+
+Full band, also known as super-wideband or ultra-wideband, refers to an even wider frequency range of audio signals than wideband. Full band audio typically covers a frequency range from 20 Hz to 20,000 Hz, which corresponds to the entire range of human hearing. By capturing and reproducing this broad spectrum, full band audio provides an even more natural and realistic listening experience than wideband audio.
+
+Full band audio is particularly beneficial for high-quality music streaming, immersive sound in movies or video games, and other applications where the highest possible fidelity is desired. In the context of speech communication, full band audio can further enhance the clarity and intelligibility of the human voice, capturing more subtle nuances and details.
