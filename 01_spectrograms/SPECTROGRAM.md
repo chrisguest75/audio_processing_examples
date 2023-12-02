@@ -58,21 +58,33 @@ brew install audacity
 
 Create a tool to diff spectrograms.  
 
+Example creates a 16khz wav. It downsamples another to 8khz and then upsamples to 16khz so the spectrograms can be compared (same numpy array shape).  
+
 ```sh
-ffmpeg -y -hide_banner -i "./sources/audiobooks/christmas_short_works_2008_0812_64kb_mp3/english_christmas1873_macdonald_mtd_64kb.mp3" -ac 1 -ar 16000 "./output/english_christmas1873_macdonald_mtd_64kb.wav"
+# create two sources 16khz and 8khz
+ffmpeg -y -hide_banner -i "../sources/audiobooks/christmas_short_works_2008_0812_64kb_mp3/english_christmas1873_macdonald_mtd_64kb.mp3" -ac 1 -ar 16000 "../output/english_christmas1873_macdonald_mtd_16khz.wav"
+
+ffmpeg -y -hide_banner -i "../sources/audiobooks/christmas_short_works_2008_0812_64kb_mp3/english_christmas1873_macdonald_mtd_64kb.mp3" -ac 1 -ar 8000 "../output/english_christmas1873_macdonald_mtd_8khz.wav"
+
+ffmpeg -y -hide_banner -i "../output/english_christmas1873_macdonald_mtd_8khz.wav" -ac 1 -ar 16000 "../output/english_christmas1873_macdonald_mtd_8khz_up.wav"
+
 
 export PIPENV_VENV_IN_PROJECT=1
 pipenv install
 pipenv install numpy scipy matplotlib
 
 # process
-pipenv run start:process --input "../output/LNL222.mp3.wav" --output "./LNL222.mp3.csv"
+pipenv run start:process --input "../output/english_christmas1873_macdonald_mtd_16khz.wav" --output "./english_christmas1873_macdonald_mtd_16khz.wav.csv"
+
+pipenv run start:process --input "../output/english_christmas1873_macdonald_mtd_8khz_up.wav" --output "./english_christmas1873_macdonald_mtd_8khz.wav.csv"
 
 # plot
-pipenv run start:plot --input "./LNL222.mp3.csv"
+pipenv run start:plot --input "./english_christmas1873_macdonald_mtd_16khz.wav.csv"
+
+pipenv run start:plot --input "./english_christmas1873_macdonald_mtd_8khz.wav.csv"
 
 # diff
-pipenv run start:diff --base "./LNL222.mp3.csv" --input "./LNL222.mp3.csv"
+pipenv run start:diff --base "./english_christmas1873_macdonald_mtd_16khz.wav.csv" --input "./english_christmas1873_macdonald_mtd_8khz.wav.csv"
 ```
 
 ## Shell

@@ -89,7 +89,7 @@ def diff_spectrogram(input_file1: str, input_file2: str) -> None:
 
     # Check that the spectrograms are the same shape
     if spectrogram1.shape != spectrogram2.shape:
-        logger.error("The spectrograms are different shapes", {"shape1": spectrogram1.shape, "shape2": spectrogram2.shape})
+        logger.error("The spectrograms are different shapes", extra={"shape1": spectrogram1.shape, "shape2": spectrogram2.shape})
         return
 
     # Subtract the spectrograms
