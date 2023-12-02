@@ -34,7 +34,7 @@ def str2bool(v):
     return v.lower() in ("yes", "true", "t", "1")
 
 def create_spectrograph(wav_file, output_file):
-    logger.info("Processing", {"file": wav_file})
+    logger.info("Processing", extra={"file": wav_file})
     # Read the WAV file
     sample_rate, data = scipy.io.wavfile.read(wav_file)
 
@@ -47,10 +47,10 @@ def create_spectrograph(wav_file, output_file):
         for row in spectrogram:
             csv_writer.writerow(row)
 
-    logger.info("Output", {"file": output_file})
+    logger.info("Output", extra={"file": output_file})
 
 def plot_spectrogram(input_file):
-    logger.info("Processing", {"file": input_file})
+    logger.info("Processing", extra={"file": input_file})
     # Read the CSV file
     with open(input_file, "r", newline="") as csvfile:
         csv_reader = csv.reader(csvfile)
@@ -76,12 +76,21 @@ def read_csv_file(filename):
         data = [list(map(float, row)) for row in csv_reader]
     return np.array(data)
 
-def diff_spectrogram(input_file1, input_file2):
-    logger.info("Diff", {"file1": input_file1, "file2": input_file2})
+def diff_spectrogram(input_file1: str, input_file2: str) -> None:
+    logger.info("Diff", extra={"file1": input_file1, "file2": input_file2})
 
     # Read the spectrogram data from the CSV files
-    spectrogram1 = read_csv_file(input_file1)
-    spectrogram2 = read_csv_file(input_file2)
+    try:
+        spectrogram1 = read_csv_file(input_file1)
+        spectrogram2 = read_csv_file(input_file2)
+    except FileNotFoundError as e:
+        logger.error("Could not find the input file", {"exception": e})
+        return
+
+    # Check that the spectrograms are the same shape
+    if spectrogram1.shape != spectrogram2.shape:
+        logger.error("The spectrograms are different shapes", {"shape1": spectrogram1.shape, "shape2": spectrogram2.shape})
+        return
 
     # Subtract the spectrograms
     spectrogram_difference = np.abs(spectrogram1 - spectrogram2)
@@ -98,6 +107,7 @@ def diff_spectrogram(input_file1, input_file2):
     fig.colorbar(img, ax=ax, label="Magnitude (dB)")
     plt.show()
 
+
 if __name__ == "__main__":
     print(f"Enter {__name__}")
     with io.open("./logging_config.yaml") as f:
@@ -112,19 +122,19 @@ if __name__ == "__main__":
     parser.add_argument('--process', dest='process', action='store_true')
     parser.add_argument('--plot', dest='plot', action='store_true')
     parser.add_argument('--diff', dest='diff', action='store_true')
+    parser.add_argument('--base', dest='base')
+    parser.add_argument('--input', dest='input')
+    parser.add_argument('--output', dest='output')
+
     args = parser.parse_args()
 
     if args.process:
-        create_spectrograph("../output/LNL222.mp3.wav","./LNL222.mp3.csv")
-        create_spectrograph("../output/LNL222_5sec_ogg_wav_notrim.wav","./LNL222_5sec_ogg_wav_notrim.csv")
-        create_spectrograph("../output/LNL222_5sec_aac_wav_trim.wav","./LNL222_5sec_aac_wav_trim.csv")
+        create_spectrograph(args.input, args.output)
 
     if args.plot:
-        plot_spectrogram("./LNL222.mp3.csv")
-        plot_spectrogram("./LNL222_5sec_ogg_wav_notrim.csv")
-        plot_spectrogram("./LNL222_5sec_aac_wav_trim.csv")
+        plot_spectrogram(args.input)
 
     if args.diff:
-        diff_spectrogram("./LNL222.mp3.csv","./LNL222_5sec_ogg_wav_notrim.csv")
+        diff_spectrogram(args.base, args.input)
 
     exit(0)

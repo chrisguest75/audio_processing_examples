@@ -65,11 +65,22 @@ export PIPENV_VENV_IN_PROJECT=1
 pipenv install
 pipenv install numpy scipy matplotlib
 
+# process
+pipenv run start:process --input "../output/LNL222.mp3.wav" --output "./LNL222.mp3.csv"
+
+# plot
+pipenv run start:plot --input "./LNL222.mp3.csv"
+
+# diff
+pipenv run start:diff --base "./LNL222.mp3.csv" --input "./LNL222.mp3.csv"
+```
+
+## Shell
+
+```sh
 pipenv shell
 code . 
-
-./spectrogram.py --process                 
-./spectrogram.py --plot
+./spectrogram.py --plot --input "../output/LNL222.mp3.wav" --output "./LNL222.mp3.csv"
 ./spectrogram.py --diff
 ```
 

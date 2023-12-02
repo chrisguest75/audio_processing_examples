@@ -16,3 +16,11 @@ pytest = "*"
 
 [requires]
 python_version = "3.10"
+
+[scripts]
+"start" = "python spectrogram.py"
+"start:process" = "python spectrogram.py --process"
+"start:plot" = "python spectrogram.py --plot"
+"start:diff" = "python spectrogram.py --diff"
+test = "pytest"
+lint = "flake8"
