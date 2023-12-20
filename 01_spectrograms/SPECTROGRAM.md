@@ -7,6 +7,21 @@ TODO:
 * Generate test tones to check the diffing.  
 * Do some different codec tests at different bitrates.  
 
+## Contents
+
+- [SPECTROGRAM](#spectrogram)
+  - [Contents](#contents)
+  - [Spectrograph](#spectrograph)
+  - [Generate](#generate)
+  - [Sonic Visualiser](#sonic-visualiser)
+  - [Audacity](#audacity)
+  - [Python Install](#python-install)
+  - [Inputs](#inputs)
+  - [Trims](#trims)
+  - [Processing](#processing)
+  - [Shell](#shell)
+  - [Resources](#resources)
+
 ## Spectrograph
 
 A spectrogram, also known as a spectrograph or sonogram, is a visual representation of the frequency content of an audio signal as it changes over time. It is a powerful tool for understanding the spectral characteristics and temporal evolution of sounds. To interpret a spectrogram, you'll need to understand its three main components: time, frequency, and amplitude.
@@ -61,30 +76,70 @@ Create a tool to diff spectrograms.
 Example creates a 16khz wav. It downsamples another to 8khz and then upsamples to 16khz so the spectrograms can be compared (same numpy array shape).  
 
 ```sh
+export PIPENV_VENV_IN_PROJECT=1
+
+# uses numpy scipy matplotlib
+pipenv install
+```
+
+## Inputs
+
+```sh
 # create two sources 16khz and 8khz
 ffmpeg -y -hide_banner -i "../sources/audiobooks/christmas_short_works_2008_0812_64kb_mp3/english_christmas1873_macdonald_mtd_64kb.mp3" -ac 1 -ar 16000 "../output/english_christmas1873_macdonald_mtd_16khz.wav"
 
 ffmpeg -y -hide_banner -i "../sources/audiobooks/christmas_short_works_2008_0812_64kb_mp3/english_christmas1873_macdonald_mtd_64kb.mp3" -ac 1 -ar 8000 "../output/english_christmas1873_macdonald_mtd_8khz.wav"
 
 ffmpeg -y -hide_banner -i "../output/english_christmas1873_macdonald_mtd_8khz.wav" -ac 1 -ar 16000 "../output/english_christmas1873_macdonald_mtd_8khz_up.wav"
+```
 
+## Trims
 
-export PIPENV_VENV_IN_PROJECT=1
-pipenv install
-pipenv install numpy scipy matplotlib
+Use trims to reduce huge source files
 
-# process
-pipenv run start:process --input "../output/english_christmas1873_macdonald_mtd_16khz.wav" --output "./english_christmas1873_macdonald_mtd_16khz.wav.csv"
+```sh
+MEDIA_FILE1=../../ffmpeg_examples/output/transcoder/trint_transcode_audio_resync.m4a.wav
+MEDIA_FILE2=../../ffmpeg_examples/output/transcoder/trint_transcode_audio.m4a.wav
 
-pipenv run start:process --input "../output/english_christmas1873_macdonald_mtd_8khz_up.wav" --output "./english_christmas1873_macdonald_mtd_8khz.wav.csv"
+MEDIA_FILE1_TRIM=../../ffmpeg_examples/output/transcoder/trint_transcode_audio_resync_trim_0_100.m4a.wav
+MEDIA_FILE2_TRIM=../../ffmpeg_examples/output/transcoder/trint_transcode_audio_trim_0_100.m4a.wav
+
+sox "${MEDIA_FILE1}" "${MEDIA_FILE1_TRIM}" trim 0 "100" 
+sox "${MEDIA_FILE2}" "${MEDIA_FILE2_TRIM}" trim 0 "100" 
+```
+
+## Processing
+
+```sh
+mkdir ./out
+
+# sources
+MEDIA_FILE1="../output/english_christmas1873_macdonald_mtd_16khz.wav"
+MEDIA_FILE2="../output/english_christmas1873_macdonald_mtd_8khz_up.wav"
+MEDIA_FILE1=../../ffmpeg_examples/output/transcoder/trint_transcode_audio_resync.m4a.wav
+MEDIA_FILE2=../../ffmpeg_examples/output/transcoder/trint_transcode_audio.m4a.wav
+MEDIA_FILE1=${MEDIA_FILE1_TRIM}
+MEDIA_FILE2=${MEDIA_FILE2_TRIM}
+
+MEDIA_FILE1_NAME_ONLY=$(basename "$MEDIA_FILE1")
+echo "MEDIA_FILE1: ${MEDIA_FILE1}"
+echo "MEDIA_FILE1_NAME_ONLY: ${MEDIA_FILE1_NAME_ONLY}"
+
+MEDIA_FILE2_NAME_ONLY=$(basename "$MEDIA_FILE2")
+echo "MEDIA_FILE2: ${MEDIA_FILE2}"
+echo "MEDIA_FILE2_NAME_ONLY: ${MEDIA_FILE2_NAME_ONLY}"
+
+# process the spectrum
+pipenv run start:process --input "${MEDIA_FILE1}" --output ./out/spectrum_${MEDIA_FILE1_NAME_ONLY}.csv
+
+pipenv run start:process --input "${MEDIA_FILE2}" --output ./out/spectrum_${MEDIA_FILE2_NAME_ONLY}.csv
 
 # plot
-pipenv run start:plot --input "./english_christmas1873_macdonald_mtd_16khz.wav.csv"
-
-pipenv run start:plot --input "./english_christmas1873_macdonald_mtd_8khz.wav.csv"
+pipenv run start:plot --input ./out/spectrum_${MEDIA_FILE1_NAME_ONLY}.csv
+pipenv run start:plot --input ./out/spectrum_${MEDIA_FILE2_NAME_ONLY}.csv
 
 # diff
-pipenv run start:diff --base "./english_christmas1873_macdonald_mtd_16khz.wav.csv" --input "./english_christmas1873_macdonald_mtd_8khz.wav.csv"
+pipenv run start:diff --base ./out/spectrum_${MEDIA_FILE1_NAME_ONLY}.csv --input ./out/spectrum_${MEDIA_FILE2_NAME_ONLY}.csv
 ```
 
 ## Shell
