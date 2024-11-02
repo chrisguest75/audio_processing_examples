@@ -16,6 +16,8 @@ poetry install
 
 ## Run
 
+Split the sounds.  
+
 ```sh
 poetry run spleeter
 
@@ -33,6 +35,16 @@ Outputs vocals, drums, bass and other.
 
 ```sh
 poetry run spleeter separate -p spleeter:4stems -o output audio_example.mp3
+```
+
+## Remix
+
+Remix the stems back together.  
+
+```sh
+ffmpeg -i ./bass.wav -i ./drums.wav -i ./other.wav -i ./vocals.wav  -filter_complex amix=inputs=4:duration=shortest ./remixed.mp3
+
+vlc ./remixed
 ```
 
 ## Resources
