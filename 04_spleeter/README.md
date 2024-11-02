@@ -27,6 +27,14 @@ vlc ./output/audio_example/accompaniment.wav
 vlc ./output/audio_example/vocals.wav 
 ```
 
+## Four stems
+
+Outputs vocals, drums, bass and other.  
+
+```sh
+poetry run spleeter separate -p spleeter:4stems -o output audio_example.mp3
+```
+
 ## Resources
 
 * https://github.com/deezer/spleeter?tab=readme-ov-file

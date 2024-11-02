@@ -1,0 +1,81 @@
+!Config
+master_audio: ./out/themodel/themodel.mp3
+begin_time: 0
+end_time:
+fps: 60
+trigger_ms: 40
+render_ms: 40
+trigger_subsampling: 1
+render_subsampling: 2
+render_subfps: 2
+amplification: 1
+trigger_stereo: !Flatten SumAvg
+render_stereo: !Flatten SumAvg
+trigger: !CorrelationTriggerConfig
+  edge_direction: 1
+  post_trigger:
+  post_radius: 3
+  mean_responsiveness: 0.0
+  edge_strength: 1.0
+  slope_width: 0.25
+  responsiveness: 0.5
+  buffer_falloff: 0.5
+  reset_below: 0.3
+  pitch_tracking: !SpectrumConfig {}
+channels:
+- !ChannelConfig
+  wav_path: ./out/themodel/bass.wav
+- !ChannelConfig
+  wav_path: ./out/themodel/drums.wav
+- !ChannelConfig
+  wav_path: ./out/themodel/vocals.wav
+- !ChannelConfig
+  wav_path: ./out/themodel/other.wav
+default_label: !DefaultLabel FileName
+layout: !LayoutConfig
+  orientation: h
+  nrows:
+  ncols:
+  stereo_orientation: v
+render: !RendererConfig
+  width: 1920
+  height: 1080
+  line_width: 1.5
+  line_outline_width: 0.0
+  grid_line_width: 1.0
+  bg_color: '#000000'
+  bg_image: ''
+  init_line_color: '#ffffff'
+  global_line_outline_color: '#000000'
+  global_color_by_pitch: false
+  pitch_colors:
+  - '#ff8189'
+  - '#ff9155'
+  - '#ffba37'
+  - '#f7ff52'
+  - '#95ff85'
+  - '#16ffc1'
+  - '#00ffff'
+  - '#4dccff'
+  - '#86acff'
+  - '#b599ff'
+  - '#ed96ff'
+  - '#ff87ca'
+  grid_color: '#55aaff'
+  stereo_grid_opacity: 0.25
+  midline_color: '#404040'
+  v_midline: true
+  h_midline: true
+  global_stereo_bars: false
+  stereo_bar_color: '#88ffff'
+  label_font: !Font
+    family:
+    bold: false
+    italic: false
+    size: 28
+    toString:
+  label_position: !LabelPosition LeftTop
+  label_padding_ratio: 0.5
+  label_color_override:
+  antialiasing: true
+  res_divisor: 1.5

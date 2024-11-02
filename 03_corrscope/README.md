@@ -2,11 +2,6 @@
 
 Corrscope is named because it cross-correlates the input wave and a history buffer, to maximize wave alignment between frames.  
 
-TODO:
-
-* Render from yaml - `pipenv run corr ./radio6.yaml`
-* 
-
 ## Start
 
 ```sh
@@ -45,6 +40,18 @@ Each channel is passed seperately for oscilloscope.
 ```sh
 pipenv run corr --audio ./out/radio6.wav --write --render ./out/radio6_2.mp4 ./out/radio6.wav
 vlc ./out/radio6_2.mp4
+```
+
+## Corrscope
+
+```sh
+pipenv run corr --render ./out/audio_example.mp4 ./audio_example.yaml 
+vlc ./out/audio_example.mp4
+```
+
+```sh
+# split the model into 4 stems
+pipenv run corr --render ./out/themodel/themodel.mp4 ./themodel.yaml 
 ```
 
 ## Resources
