@@ -4,7 +4,7 @@ Corrscope is named because it cross-correlates the input wave and a history buff
 
 TODO:
 
-* Render from yaml
+* Render from yaml - `pipenv run corr ./radio6.yaml`
 * 
 
 ## Start
