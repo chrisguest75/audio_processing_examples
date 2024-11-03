@@ -1,6 +1,5 @@
 # TODO
 
-* Voice Activity Detection.
 * Feature Extraction
 * Frequency
 * MEL Spectrogram

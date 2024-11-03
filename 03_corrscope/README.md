@@ -52,6 +52,14 @@ vlc ./out/audio_example.mp4
 ```sh
 # split the model into 4 stems
 pipenv run corr --render ./out/themodel/themodel.mp4 ./themodel.yaml 
+vlc ./out/themodel/themodel.mp4 
+```
+
+### STSound
+
+```sh
+pipenv run corr --render ./out/AJH_99.mp4 ./AJH_99.yaml 
+vlc ./out/AJH_99.mp4
 ```
 
 ## Resources
