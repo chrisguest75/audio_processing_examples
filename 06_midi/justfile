@@ -9,15 +9,21 @@ default:
 nix:
   #!/usr/bin/env bash
   set -eufo pipefail
-  nix-shell -p fluidsynth soundfont-fluid --command zsh
+  nix-shell -p fluidsynth soundfont-fluid qsynth alsa-utils patchage --command zsh
 
 play file='./files/Chords Dbm-Bb7-D5-Fb 140bpm.mid':
   #!/usr/bin/env bash
   set -eufo pipefail
   # need to discover this
-  fluidsynth --gain 2 -a alsa -m alsa_seq -l --dump --chorus --reverb -i "$SDL_SOUNDFONTS" "{{ file }}"
+  fluidsynth --gain 2 -a alsa -m alsa_seq -l --verbose --dump --chorus --reverb -i "$SDL_SOUNDFONTS" "{{ file }}"
 
 qsynth file='./files/Chords Dbm-Bb7-D5-Fb 140bpm.mid':
   #!/usr/bin/env bash
   set -eufo pipefail
   qsynth -a alsa -m alsa_seq "$SDL_SOUNDFONTS" "{{ file }}"
+
+patchage:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  patchage
+  
