@@ -1,0 +1,23 @@
+set dotenv-load := true
+
+export SDL_SOUNDFONTS:="/nix/store/8v9qqnwm9y0nk325j7sf8va3r0mw6hss-Fluid-3/share/soundfonts/FluidR3_GM2-2.sf2"
+
+# default lists actions
+default:
+  @just -f justfile --list
+
+nix:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  nix-shell -p fluidsynth soundfont-fluid --command zsh
+
+play file='./files/Chords Dbm-Bb7-D5-Fb 140bpm.mid':
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  # need to discover this
+  fluidsynth --gain 2 -a alsa -m alsa_seq -l --dump --chorus --reverb -i "$SDL_SOUNDFONTS" "{{ file }}"
+
+qsynth file='./files/Chords Dbm-Bb7-D5-Fb 140bpm.mid':
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  qsynth -a alsa -m alsa_seq "$SDL_SOUNDFONTS" "{{ file }}"
