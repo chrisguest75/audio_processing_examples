@@ -9,7 +9,7 @@ default:
 nix:
   #!/usr/bin/env bash
   set -eufo pipefail
-  nix-shell -p fluidsynth soundfont-fluid qsynth alsa-utils patchage --command zsh
+  nix-shell -p fluidsynth soundfont-fluid qsynth alsa-utils patchage show-midi --command zsh
 
 play file='./files/Chords Dbm-Bb7-D5-Fb 140bpm.mid':
   #!/usr/bin/env bash
@@ -26,4 +26,8 @@ patchage:
   #!/usr/bin/env bash
   set -eufo pipefail
   patchage
-  
+
+showmidi:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  ShowMIDI

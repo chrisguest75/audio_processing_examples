@@ -1,0 +1,11 @@
+set dotenv-load := true
+
+# default lists actions
+default:
+  @just -f justfile --list
+
+yoshimi:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  nix-shell -p yoshimi --command yoshimi
+

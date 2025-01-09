@@ -62,8 +62,7 @@ aseqdump -p 14:0
 * https://discourse.nixos.org/t/how-to-configure-fluidsynth-to-use-soundfont-fluid/42830
 * https://wiki.archlinux.org/title/FluidSynth
 * Standard MIDI-File Format Spec. 1.1, updated [here](http://www.music.mcgill.ca/~ich/classes/mumt306/StandardMIDIfileformat.html)
-
-https://freeshell.de/~murks/posts/ALSA_and_JACK_MIDI_explained_(by_a_dummy_for_dummies)/
-https://jackaudio.org/
-https://github.com/gbevin/ShowMIDI
-https://github.com/alsa-project/alsa-utils
+* https://freeshell.de/~murks/posts/ALSA_and_JACK_MIDI_explained_(by_a_dummy_for_dummies)/
+* https://jackaudio.org/
+* https://github.com/gbevin/ShowMIDI
+* https://github.com/alsa-project/alsa-utils
