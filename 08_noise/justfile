@@ -1,0 +1,43 @@
+set dotenv-load := true
+
+# default lists actions
+default:
+  @just -f {{ source_file() }} --list
+
+nix:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  nix develop --command zsh
+
+sources: 
+  #!/usr/bin/env bash
+  set -xeufo pipefail
+  mkdir -p ../sources/audiobooks/ || true 
+  curl -vvv -L -o ../sources/audiobooks/christmas_short_works_2008_0812_64kb_mp3.zip http://www.archive.org/download/christmas_short_works_2008_0812/christmas_short_works_2008_0812_64kb_mp3.zip
+  unzip ../sources/audiobooks/christmas_short_works_2008_0812_64kb_mp3.zip -d ../sources/audiobooks/christmas_short_works_2008_0812_64kb_mp3
+
+measure-levels audiofile="${DEFAULT_FILE}":
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  ffmpeg -hide_banner -i {{ audiofile }} -af 'astats=metadata=1:reset=4400:metadata=true,ametadata=mode=print' -f null - 2>&1 | grep 'Parsed_astats_0 @ 0x[a-f0-9]*\]'
+
+measure-psnr audiofile="${DEFAULT_FILE}":
+  #!/usr/bin/env bash
+  set -xeufo pipefail
+  ffmpeg -hide_banner -i ../sources/audiobooks/christmas_short_works_2008_0812_64kb_mp3/english_coventrycarol_unknown_rg_64kb.mp3 -i {{ audiofile }} -filter_complex "[0:a:0][1:a:0]psnr" -f null -
+
+mix-pink-noise amplitude="0.1":
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  mkdir -p ../output/noise || true 
+  export NOISE_TYPE=pink
+  ffmpeg -hide_banner -y -i ../sources/audiobooks/christmas_short_works_2008_0812_64kb_mp3/english_coventrycarol_unknown_rg_64kb.mp3 -filter_complex "anoisesrc=color=${NOISE_TYPE}:amplitude={{ amplitude }}[noise];[0:a][noise]amix=inputs=2:duration=first:dropout_transition=3" ../output/noise/english_coventrycarol_unknown_rg_64kb_${NOISE_TYPE}noise.mp3
+  vlc ../output/noise/english_coventrycarol_unknown_rg_64kb_${NOISE_TYPE}noise.mp3
+
+mix-brown-noise amplitude="0.1":
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  mkdir -p ../output/noise || true 
+  export NOISE_TYPE=brown
+  ffmpeg -hide_banner -y -i ../sources/audiobooks/christmas_short_works_2008_0812_64kb_mp3/english_coventrycarol_unknown_rg_64kb.mp3 -filter_complex "anoisesrc=color=${NOISE_TYPE}:amplitude={{ amplitude }}[noise];[0:a][noise]amix=inputs=2:duration=first:dropout_transition=3" ../output/noise/english_coventrycarol_unknown_rg_64kb_${NOISE_TYPE}noise.mp3
+  vlc ../output/noise/english_coventrycarol_unknown_rg_64kb_${NOISE_TYPE}noise.mp3
