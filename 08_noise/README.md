@@ -53,6 +53,8 @@ just measure-psnr ../output/noise/english_coventrycarol_unknown_rg_64kb_pinknois
 
 ## Denoise
 
+TRY OUT THE DENOISE MODELS!!
+
 ```sh
 git clone https://github.com/GregorR/rnnoise-models.git
 
