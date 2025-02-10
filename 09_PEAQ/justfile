@@ -18,7 +18,8 @@ docker-shell application="$DEFAULT_APPLICATION": (docker-build application)
   set -xeufo pipefail  
   mkdir -p ./in || true
   mkdir -p ./out || true
-  docker run -it -v $(pwd)/in:/in -v $(pwd)/out:/out --entrypoint bash {{ application }}:latest
+  #docker run -it -v $(pwd)/code/peaqb-1.0.beta:/scratch/peaqb-1.0.beta -v $(pwd)/in:/in -v $(pwd)/out:/out --entrypoint bash {{ application }}:latest
+  docker run -it -v $(pwd)/code/peaqb-1.0.beta:/scratch/peaqb-1.0.beta -v $(pwd)/in:/in -v $(pwd)/out:/out --entrypoint bash {{ application }}:latest
 
 # run docker image
 docker-run application="$DEFAULT_APPLICATION": (docker-build application)
@@ -26,4 +27,19 @@ docker-run application="$DEFAULT_APPLICATION": (docker-build application)
   set -xeufo pipefail  
   docker run -it {{ application }}:latest
 
+mix-noise noisetype="brown" amplitude="0.1":
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  mkdir -p ../output/noise || true 
+  export NOISE_TYPE={{ noisetype }}
+  ffmpeg -hide_banner -y -i ../sources/audiobooks/christmas_short_works_2008_0812_64kb_mp3/english_coventrycarol_unknown_rg_64kb.mp3 -ar 16000 -t 00:00:30 ../output/noise/english_coventrycarol_unknown_rg_64kb.wav
+  ffmpeg -hide_banner -y -i ../output/noise/english_coventrycarol_unknown_rg_64kb.wav -filter_complex "anoisesrc=color=${NOISE_TYPE}:amplitude={{ amplitude }}[noise];[0:a][noise]amix=inputs=2:duration=first:dropout_transition=3" -ar 16000 ../output/noise/english_coventrycarol_unknown_rg_64kb_${NOISE_TYPE}noise.wav
+  vlc ../output/noise/english_coventrycarol_unknown_rg_64kb.wav
+  vlc ../output/noise/english_coventrycarol_unknown_rg_64kb_${NOISE_TYPE}noise.wav
 
+copy-inputs: mix-noise
+  #!/usr/bin/env bash
+  set -xeufo pipefail
+  mkdir -p ./in || true
+  cp ../output/noise/english_coventrycarol_unknown_rg_64kb.wav ./in/
+  cp ../output/noise/english_coventrycarol_unknown_rg_64kb_brownnoise.wav ./in/
