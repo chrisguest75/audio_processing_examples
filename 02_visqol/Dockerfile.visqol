@@ -1,0 +1,25 @@
+FROM ubuntu:22.04 AS builder
+
+# install bazel 5.1.0. This is the latest version that works with the current version of distroless
+RUN apt-get update && \
+    apt-get install -y curl gnupg gnupg2 python3 git 
+
+ARG BAZEL_VERSION=5.3.2
+RUN curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor > bazel.gpg && \
+    mv bazel.gpg /etc/apt/trusted.gpg.d/ && \
+    echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list && \
+    apt-get update && \
+    apt-get install -y nano python3-numpy bazel-${BAZEL_VERSION} && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /scratch
+RUN git clone https://github.com/miraliahmadli/visqol.git visqol
+WORKDIR /scratch/visqol 
+RUN git checkout 10388fe2ea22062ca7921ade51212f8a0c8cfdd3
+
+#RUN git clone https://github.com/google/visqol visqol
+#WORKDIR /scratch/visqol 
+
+#RUN bazel-5.3.2 build :visqol -c opt
+
+# FROM ubuntu:22.04 AS final
