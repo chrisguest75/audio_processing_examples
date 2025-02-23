@@ -5,7 +5,7 @@ from iterate_folder import iterate_folder
 from measure import audio_durations
 
 
-def audio_timestretch(file: str, duration: int, target: int, output: str) -> None:
+def audio_timestretch(file: str, tempo: int, output: str) -> None:
     av.logging.set_level(av.logging.VERBOSE)
 
     input_file = av.open(file)
@@ -17,7 +17,7 @@ def audio_timestretch(file: str, duration: int, target: int, output: str) -> Non
     graph = av.filter.Graph()
     graph.link_nodes(
         graph.add_abuffer(template=input_stream),
-        graph.add("atempo", "2.0"),
+        graph.add("atempo", str(tempo)),
         graph.add("abuffersink"),
     ).configure()
 
@@ -48,25 +48,31 @@ def normalise(folder: str, output: str) -> None:
         measures = iterate_folder(folder, audio_durations)
 
         for item in measures:
-            #print(item)
-            logger.info(item)
-
-        # find min and max durations
-        min_duration = min([item["duration"] for item in measures])
-        max_duration = max([item["duration"] for item in measures])
-
-        for item in measures:
             input_file = item["file"]
             filename = os.path.splitext(os.path.basename(input_file))
             output_file = os.path.join(output, filename[0] + ".wav")
             input_duration = item["duration"]
 
             logger.info({ "input_file": input_file, "output_file": output_file })
-            
-            audio_timestretch(input_file, input_duration, 1.2, output_file)
+            tempo = min(0.9 / input_duration, 2.0) 
+            tempo = max(tempo, 0.5)
+            item["tempo"] = tempo
+            audio_timestretch(input_file, tempo, output_file)
+
+            logger.info(item)
+
+        # find min and max durations
+        min_duration = min([item["duration"] for item in measures])
+        max_duration = max([item["duration"] for item in measures])
 
         logger.info({ "min_duration": {min_duration}, "max_duration": {max_duration} })
         
+        measures = iterate_folder(output, audio_durations)
+
+        for item in measures:
+            #print(item)
+            logger.info(item)
+
     else:
         logger.error(f"Folder {folder} does not exist")
 

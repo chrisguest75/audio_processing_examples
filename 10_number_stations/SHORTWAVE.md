@@ -47,6 +47,9 @@ With final filters and condensed sample rate.
 just -f shortwave.justfile shortwave ${SOURCE_AUDIO_FILE}
 
 just -f shortwave.justfile sonic-visualiser '../output/english_three_christmas_masses_daudet_ajm_64kb_shortwave.wav'
+
+just -f shortwave.justfile noise '../output/english_three_christmas_masses_daudet_ajm_64kb_shortwave.wav'
+
 ```
 
 ## Resources

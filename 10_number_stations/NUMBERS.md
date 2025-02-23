@@ -8,12 +8,20 @@ Download some numbers from internet archive
 just -f numbers.justfile getsource 
 ```
 
-## Measure
+## Process
 
 ```sh
 cd 10_station_handler
 
 just test-measure
+just test-normalise  
+just test-concatenate
+
+just -f ../shortwave.justfile shortwave ../output/numbers.wav
+
+just -f ../shortwave.justfile noise '../output/numbers_shortwave.wav'
+
+vlc '../../output/numbers_shortwave_noise.wav'
 ```
 
 ## Resources

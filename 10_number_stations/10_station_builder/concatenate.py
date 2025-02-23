@@ -15,6 +15,9 @@ def build(folder: str, output: str) -> None:
         #print(item)
         logger.info(item)
 
+    files = [item["file"] for item in measures]
+    build_file(files, output)
+
 
 def build_file(files: list, output_file: str) -> None:
     av.logging.set_level(av.logging.VERBOSE)
@@ -28,12 +31,12 @@ def build_file(files: list, output_file: str) -> None:
     first_input.close()
 
     # Open the output container in write mode
-    output = av.open(output_file, mode="w")
+    output = av.open(output_file, mode="w", format="wav")
     # Create an output audio stream.
     # Here we use the 'pcm_s16le' codec (standard for WAV files).
     out_stream = output.add_stream("pcm_s16le", rate=sample_rate)
-    out_stream.channels = channels
-    out_stream.layout = layout
+    #out_stream.channels = channels
+    #out_stream.layout = layout
     # Set the time base to 1/sample_rate (each tick is one sample)
     out_stream.time_base = Fraction(1, sample_rate)
 

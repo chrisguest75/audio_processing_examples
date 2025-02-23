@@ -2,6 +2,12 @@
 
 Create a number station.  
 
+TODO:
+
+* Add shortwave
+* Add noise
+* Add morse code blips
+
 ## Contents
 
 - [NUMBER STATION BUILDER](#number-station-builder)
@@ -35,6 +41,7 @@ just start --test
 just test-measure 
 
 just test-normalise
+just test-measure "../../output/numbers"
 
 just test-concatenate
 ```

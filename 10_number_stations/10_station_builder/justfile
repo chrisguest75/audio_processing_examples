@@ -34,20 +34,20 @@ format:
   #!/usr/bin/env bash
   uv run black --line-length=120 .
 
-test-measure:
+test-measure folder="../../sources/numbers/numbers0-100englishpronouciation":
   #!/usr/bin/env bash
   set -eufo pipefail
   export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-  uv run ./main.py --operation measure 
+  uv run ./main.py --operation measure --folder "{{ folder }}" 
 
-test-normalise:
+test-normalise folder="../../sources/numbers/numbers0-100englishpronouciation":
   #!/usr/bin/env bash
   set -eufo pipefail
   export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-  uv run ./main.py --operation normalise --folder "../../sources/numbers/numbers0-100englishpronouciation" --output "../../output/numbers"
+  uv run ./main.py --operation normalise --folder "{{ folder }}" --output "../../output/numbers"
 
-test-concatenate:
+test-concatenate folder="../../output/numbers":
   #!/usr/bin/env bash
   set -eufo pipefail
   export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-  uv run ./main.py --operation concatenate --folder "../../sources/numbers/numbers0-100englishpronouciation" --output "../../output/numbers"
+  uv run ./main.py --operation concatenate --folder {{ folder }} --output "../../output/numbers.wav"

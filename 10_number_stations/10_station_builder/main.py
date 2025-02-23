@@ -64,7 +64,7 @@ def test(folder: str, operation: str, output: str) -> int:
     elif operation == "normalise":
         normalise(folder, output)
     elif operation == "concatenate":
-        build(folder, os.path.join(output, "output.wav"))
+        build(folder, output)
     else:
         logger.error(f"Unknown operation: {operation}")
     
