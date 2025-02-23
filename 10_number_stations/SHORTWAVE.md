@@ -25,18 +25,18 @@ just play ${SOURCE_AUDIO_FILE}
 ### Lower Audio Rate
 
 ```sh
-just samplerate-2400 ${SOURCE_AUDIO_FILE}
+just -f shortwave.justfile samplerate-2400 ${SOURCE_AUDIO_FILE}
 ```
 
 ### Lowpass & Highpass filters
 
 ```sh
 # Check spectrum 
-just lowpass ${SOURCE_AUDIO_FILE}
-just sonic-visualiser '../output/english_three_christmas_masses_daudet_ajm_64kb_lowpass.wav'
+just -f shortwave.justfile lowpass ${SOURCE_AUDIO_FILE}
+just -f shortwave.justfile sonic-visualiser '../output/english_three_christmas_masses_daudet_ajm_64kb_lowpass.wav'
 
-just highpass ${SOURCE_AUDIO_FILE}
-just sonic-visualiser '../output/english_three_christmas_masses_daudet_ajm_64kb_highpass.wav'
+just -f shortwave.justfile highpass ${SOURCE_AUDIO_FILE}
+just -f shortwave.justfile sonic-visualiser '../output/english_three_christmas_masses_daudet_ajm_64kb_highpass.wav'
 ```
 
 ### Shortwave Final
@@ -44,9 +44,9 @@ just sonic-visualiser '../output/english_three_christmas_masses_daudet_ajm_64kb_
 With final filters and condensed sample rate.  
 
 ```sh
-just shortwave ${SOURCE_AUDIO_FILE}
+just -f shortwave.justfile shortwave ${SOURCE_AUDIO_FILE}
 
-just sonic-visualiser '../output/english_three_christmas_masses_daudet_ajm_64kb_shortwave.wav'
+just -f shortwave.justfile sonic-visualiser '../output/english_three_christmas_masses_daudet_ajm_64kb_shortwave.wav'
 ```
 
 ## Resources
