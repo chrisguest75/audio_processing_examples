@@ -1,0 +1,53 @@
+set dotenv-load := true
+
+# default lists actions
+default:
+  @just -f justfile --list
+
+nix:
+  #!/usr/bin/env bash
+  set -xeufo pipefail
+  nix develop --impure --command zsh
+
+init:
+  #!/usr/bin/env bash
+  set -xeufo pipefail
+  uv init .
+
+start *args:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
+  uv run ./main.py {{ args }}
+
+test: 
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  uv run pytest
+
+lint:  
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  uv run flake8
+
+format:
+  #!/usr/bin/env bash
+  uv run black --line-length=120 .
+
+test-measure:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
+  uv run ./main.py --operation measure 
+
+test-normalise:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
+  uv run ./main.py --operation normalise --folder "../../sources/numbers/numbers0-100englishpronouciation" --output "../../output/numbers"
+
+test-concatenate:
+  #!/usr/bin/env bash
+  set -eufo pipefail
+  export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
+  uv run ./main.py --operation concatenate --folder "../../sources/numbers/numbers0-100englishpronouciation" --output "../../output/numbers"
