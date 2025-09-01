@@ -1,0 +1,8 @@
+setcpm(130/4)
+
+sound(`
+[bd - bd - ] [- - bd - ] [- - - - ] [bd - - - ],
+[- - - - ] [cp - - - ] [- - - - ] [cp - - - ],
+[hh ch hh ch] [hh ch hh ch] [ch hh ch hh] [ch hh hh hh],
+[- - - - ] [- - - - ] [- rim - rim ] [rim rim - - ]
+`).bank("RolandTR808").lpf("<4000 2000 5000>")

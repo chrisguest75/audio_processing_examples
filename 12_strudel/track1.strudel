@@ -1,0 +1,15 @@
+setcpm(130/4)
+
+$beats:sound(`
+[bd - bd - ] [- - bd - ] [- - - - ] [bd - - - ],
+[- - - - ] [cp - - - ] [- - - - ] [cp - - - ],
+[hh - hh -] [hh ~ hh -] [- hh ~ hh] [ch hh hh hh],
+[- - - - ] [- - - - ] [- rim - rim ] [rim rim - - ]
+`).bank("RolandTR808").lpf("<4000 2000 5000>")
+
+
+
+$melody: note(irand(12).seg(4).scale("c:minor")).sound("gm_synth_strings_1").lpf(slider(285.6,0,800)).lpq(slider(7.07,0,10)).orbit(4)
+
+$bass: note("<[36 48]*4 [34 46]*4 [41 53]*4 [39 51]*4>").lpf("300").sound("gm_electric_bass_pick").fmh("<8>")
+
