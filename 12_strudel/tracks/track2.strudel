@@ -1,0 +1,41 @@
+setcpm(130/4)
+
+/*sound("[bd - bd - ] [- - bd - ] [- - - - ] [bd - - - ], \
+ [- - - - ] [cp - - - ] [- - - - ] [cp - - - ], \
+ [hh ch hh ch] [hh ch hh ch] [ch hh ch hh] [ch hh hh hh], \
+ [- - - - ] [- - - - ] [- rim - rim ] [rim rim - - ]"
+  .bank("RolandTR808")
+  .when("bd", p => p.lpf("<4000 2000 5000>")))*/
+
+
+
+$beats: sound(stack(
+  "[bd - bd - ] [- - bd - ] [- - - - ] [bd - - - ]"
+    .bank("RolandTR808"),
+
+  "[- - - - ] [cp - - - ] [- - - - ] [cp - - - ]"
+    .bank("RolandTR808")
+    .lpf("<2000 1000 3000>").room("<.6 .8>"),
+
+  "[hh - hh -] [hh - - -] [- hh - -] [- hh hh -]"
+    .bank("RolandTR909").echo(2, 1/4, .4).coarse("<2 1>").gain(".2"),
+
+  "[- - - rim ] [- - - - ] [- rim - rim ] [- rim - - ]"
+    .bank("RolandTR808").echo(2, 1/4, .4).gain(".2")
+).postgain(".6"))
+
+$bass: sound(note("<C D G A Bb D C A G D Bb A>*[2,3,5]")
+      .add(note("12, 4"))
+      .s("square"))
+
+$lead: n("<[0 2 ~ 6 ~ 7 9 5] [0 3 ~ 9 ~ 3 5 7]>")
+      .scale("C:minor").jux(rev)
+      .sound("gm_synth_strings_1").lpf(slider(1011.9,300,1200)).gain(slider(0.399,0,1))
+
+$t: note("[[c g d# g], [g d# c c]] ".fast(1)).s("saw").lpf(slider(1001.1,300,1200))
+  .echo(3, 1/8, .6)
+.gain(slider(0.178,0,1))
+
+$z: note("<[c3,eb3,g3] [f3,a3,c4]>").add("<0 <2 -2>>").add("<0 7 7 4>").off(1/8, x=>x.add(4)).s("supersaw").gain(".2").room(.5)
+
+

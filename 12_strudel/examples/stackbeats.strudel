@@ -1,0 +1,17 @@
+setcpm(130/4)
+
+sound(stack(
+  "[bd - bd - ] [- - bd - ] [- - - - ] [bd - - - ]"
+    .bank("RolandTR808")
+    .lpf("<4000 2000 5000>"),
+
+  "[- - - - ] [cp - - - ] [- - - - ] [cp - - - ]"
+    .bank("RolandTR808")
+    .lpf("<2000 1000 3000>").room("<.6 .8>"),
+
+  "[hh - hh -] [hh - hh -] [- hh - hh] [- hh hh hh]"
+    .bank("RolandTR909").echo(2, 1/4, .4).coarse("<4 8>").gain(".2!2"),
+
+  "[- - - - ] [- - - - ] [- rim - rim ] [rim rim - - ]"
+    .bank("RolandTR808").echo(2, 1/4, .4)
+))
