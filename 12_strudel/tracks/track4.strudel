@@ -19,9 +19,9 @@ $beats: sound(stack(
 $: n("0 [2 4] <3 5> [~ <5 2>] <5 4 0 ~>").seg(8)
 .scale("C2:minor")
 .sound("bytebeat").distort("2.2:.3")
-.room(.4).delay(1).lpf(slider(225.3,100,800)).lpenv(slider(1.812,0,12)).gain(".4").scope()
+.room(.4).delay(1).lpf(slider(184,100,800)).lpenv(slider(10.068,0,12)).gain(slider(0.73,0,1)).scope()
 
 
 
-$hoover: s("supersaw").detune(1).rel(5).beat(2,64).slow(2).hpf(slider(537.6,200,600))._scope()
+$hoover: s("supersaw").detune(1).rel(5).beat(2,64).slow(2).hpf(slider(535.2,200,600))._scope()
 
