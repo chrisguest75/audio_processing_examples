@@ -1,5 +1,12 @@
 setcpm(130/4)
 
+const BASS_LPF = slider(661.4,100,800)
+const BASS_LPENV = slider(9.252,0,12)
+const BASS_GAIN = slider(0.699,0,1)
+const HOOVER_HPF = slider(405.6,200,600)
+
+
+
 $beats: sound(stack(
   "[bd - bd - ] [- - bd - ] [- - - - ] [bd - - - ]"
     .bank("RolandTR909"),
@@ -16,12 +23,12 @@ $beats: sound(stack(
 ).postgain("1")).speed("<1 1 1 -1 -1 1>")._punchcard()
 
 
-$: n("0 [2 4] <3 5> [~ <5 2>] <5 4 0 ~>").seg(8)
+$bass: n("0 [2 4] <3 5> [~ <5 2>] <5 4 0 ~>").seg(8)
 .scale("C2:minor")
 .sound("bytebeat").distort("2.2:.3")
-.room(.4).delay(1).lpf(slider(184,100,800)).lpenv(slider(10.068,0,12)).gain(slider(0.73,0,1)).scope()
+.room(.4).delay(1).lpf(BASS_LPF).lpenv(BASS_LPENV).gain(BASS_GAIN).scope()
 
 
 
-$hoover: s("supersaw").detune(1).rel(5).beat(2,64).slow(2).hpf(slider(535.2,200,600))._scope()
+$hoover: s("supersaw").detune(1).rel(5).beat(2,64).slow(2).hpf(HOOVER_HPF)._scope()
 
