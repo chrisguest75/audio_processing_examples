@@ -1,0 +1,19 @@
+setcpm(130/4)
+
+$beats: sound("[bd - bd - ] [- - bd - ] [- - - - ] [bd - - - ], \
+ [- - - - ] [cp - - - ] [- - - - ] [cp - - - ], \
+ [hh ch hh ch] [hh ch hh ch] [ch hh ch hh] [ch hh hh hh], \
+ [- - - - ] [- - - - ] [- rim - rim ] [rim rim - - ]"
+  .bank("RolandTR808")
+  .when("bd", p => p.lpf("<4000 2000 5000>")))
+
+$: sound("<<bd> <[bd, sd]> <[hh rim]> [<sd, cl>]>").fast(4).bank("RolandTR909").jux(rev).gain(1)
+
+
+$: n("0 [2 4] <3 5> [~ <5 2>]")
+.scale("C2:minor")
+.sound("bytebeat").distort("2.2:.3")
+.room(.4).delay(1).lpf(slider(601.2,100,800)).lpenv(slider(6.064,0,8))
+
+  
+

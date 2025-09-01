@@ -1,0 +1,28 @@
+setcpm(130/4)
+
+$beats: sound(stack(
+  "[bd - bd - ] [- - bd - ] [- - - - ] [bd - - - ]"
+    .bank("RolandTR909"),
+
+  "[- - - - ] [cp - - - ] [- - - - ] [cp - - - ]"
+    .bank("RolandTR808")
+    .lpf("<2000 1000 3000>").room("<.6 .8>"),
+
+  "[hh - hh -] [hh - - -] [- hh - -] [- hh hh -]"
+    .bank("RolandTR909").echo(2, 1/4, .4).coarse("<2 1>").gain(".2"),
+
+  "[- - - rim ] [- - - - ] [- rim - rim ] [- rim - - ]"
+    .bank("RolandTR909").echo(2, 1/4, .4).gain(".2")
+).postgain("1")).speed("<1 1 1 -1 -1 1>")
+
+
+$: n("0 [2 4] <3 5> [~ <5 2>] <5 4 0 ~>").seg(8)
+.scale("C2:minor")
+.sound("bytebeat").distort("2.2:.3")
+.room(.4).delay(1).lpf(slider(225.3,100,800)).lpenv(slider(1.812,0,12)).gain(".4")
+
+
+
+$hoover: s("supersaw").detune(1).rel(5).beat(2,64).slow(2).hpf(slider(537.6,200,600))
+
+
