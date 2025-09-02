@@ -1,10 +1,14 @@
 setcpm(130/4)
 
-const BASS_LPF = slider(140.6,100,800)
-const BASS_LPENV = slider(9.816,0,12)
-const BASS_GAIN = slider(0.239,0,1)
-const HOOVER_HPF = slider(286.4,200,600)
-const HOOVER_GAIN = slider(0.239,0,1)
+const BASS_LPF = slider(109.8,100,800)
+const BASS_LPENV = slider(0,0,12)
+const BASS_GAIN = slider(0,0,1)
+const HOOVER_HPF = slider(200,200,600)
+const HOOVER_GAIN = slider(0,0,1)
+
+samples('https://shabda.ndre.gr/speech/space_is_the_place.json?gender=f&language=en-GB&strudel=1')
+
+//$vocal: s(["space_is_the_place"]).striate(16).slow(2).chop(32).speed(rand.range(0.50,1.1))
 
 
 $beats: sound(stack(
@@ -21,6 +25,9 @@ $beats: sound(stack(
   "[- - - rim*2 ] [- - - - ] [- rim - rim ] [- rim - - ] [- - - rim*2 ] [- - - - ] [- rim*3 - rim ] [- rim - - ]"
     .bank("RolandTR909").slow(2).echo(2, 1/4, .4).gain(".2")
 ).postgain("1")).speed("<1 1 1 1 -1 -1>")._punchcard()
+
+
+
 
 
 $bass: n("0 [2 4] <3 5> [~ <5 2>] <5 4 0 ~>").seg(8)
